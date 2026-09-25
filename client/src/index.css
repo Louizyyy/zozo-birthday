@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-mickey-red: #E31C23;
+  --color-mickey-red-dark: #B01018;
+  --color-mickey-black: #1A1A1A;
+  --color-mickey-gold: #F5C518;
+  --color-mickey-gold-light: #FFE066;
+  --color-cream: #FFF8F0;
+  --color-soft-pink: #FFE4E8;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-cream);
+  color: var(--color-mickey-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100svh;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-mickey-red);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-mickey-red-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.paper-texture {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 248, 240, 0.4) 0%, transparent 40%),
+    linear-gradient(135deg, #f8f4e8 0%, #f0e6d3 50%, #e8dcc8 100%);
+}
+
+.envelope-shadow {
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.35),
+    0 10px 20px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.card-shadow {
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.25),
+    0 8px 16px -4px rgba(0, 0, 0, 0.15);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
