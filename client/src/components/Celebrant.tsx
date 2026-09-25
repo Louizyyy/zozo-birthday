@@ -18,7 +18,7 @@ export default function Celebrant() {
         >
           <p className="text-mickey-red font-semibold tracking-widest uppercase text-sm mb-2">The Star of the Day</p>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-mickey-black">
-            Meet the Birthday Star
+            Meet the Star
           </h2>
           <div className="w-16 h-1 bg-mickey-gold mx-auto mt-4 rounded-full" />
         </motion.div>
@@ -62,9 +62,6 @@ export default function Celebrant() {
             <h3 className="font-display text-3xl sm:text-4xl font-bold text-mickey-black mb-2">
               {celebrant.name}
             </h3>
-            <p className="inline-block px-4 py-1 rounded-full bg-mickey-red text-white text-sm font-semibold mb-5">
-              Turning {celebrant.age}!
-            </p>
             <p className="text-mickey-black/70 text-lg leading-relaxed max-w-md mx-auto md:mx-0 italic font-display">
               "{celebrant.shortMessage}"
             </p>

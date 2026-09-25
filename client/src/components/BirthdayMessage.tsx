@@ -25,7 +25,7 @@ export default function BirthdayMessage() {
           viewport={{ once: true }}
         >
           <p className="text-mickey-gold font-semibold tracking-widest uppercase text-sm mb-4">
-            A Little Birthday Wish
+            A Little Baptismal Wish
           </p>
           <blockquote className="font-display text-xl sm:text-2xl md:text-3xl text-white leading-relaxed italic mb-8">
             "{message}"

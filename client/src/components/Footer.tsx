@@ -21,10 +21,10 @@ export default function Footer() {
           Thank you for celebrating with us!
         </p>
         <p className="text-mickey-gold font-semibold text-base mb-6">
-          {celebrant.name}'s Birthday
+          {celebrant.name}'s Baptismal Celebration
         </p>
         <p className="text-white/40 text-xs">
-          Made with love ❤️
+          louidev.work
         </p>
       </div>
     </footer>

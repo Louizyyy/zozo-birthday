@@ -53,7 +53,7 @@ export default function Navbar() {
             </svg>
           </div>
           <span className={`font-display font-semibold text-sm sm:text-base ${scrolled ? 'text-mickey-black' : 'text-white'}`}>
-            ZOZO'S BAPTISMAL
+            Lorenzo's Baptismal
           </span>
         </a>
 

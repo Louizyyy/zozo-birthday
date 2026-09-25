@@ -41,17 +41,6 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-16 text-center">
         {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6"
-        >
-          <span className="w-2 h-2 rounded-full bg-mickey-gold animate-pulse" />
-          <span className="text-white/90 text-xs sm:text-sm font-medium tracking-wider uppercase">
-            You're Invited!
-          </span>
-        </motion.div>
 
         {/* Main title */}
         <motion.h1
@@ -73,29 +62,70 @@ export default function Hero() {
           A magical celebration awaits. Join us for an unforgettable day of fun, laughter & joy!
         </motion.p>
 
-        {/* Photo with elegant frame */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="relative inline-block mb-10"
-        >
-          <div className="relative w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 mx-auto">
-            {/* Gold ring */}
-            <div className="absolute -inset-2 rounded-full border-2 border-mickey-gold/60" />
-            <div className="absolute -inset-4 rounded-full border border-mickey-gold/30" />
-            {/* Photo */}
-            <img
-              src={celebrant.photo}
-              alt={celebrant.name}
-              className="w-full h-full object-cover rounded-full border-4 border-white shadow-2xl"
-            />
-            {/* Age badge */}
-            <div className="absolute -bottom-2 -right-2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-mickey-red border-4 border-white flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg sm:text-xl">{celebrant.age}</span>
-            </div>
-          </div>
-        </motion.div>
+        {/* Celebrant Photo + Mickey */}
+<motion.div
+  initial={{ opacity: 0, scale: 0.9 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.7, delay: 0.4 }}
+  className="relative w-full max-w-[620px] mx-auto mb-10"
+>
+  {/* Zozo's Photo */}
+  <div className="relative w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 mx-auto md:mr-[190px]">
+    {/* Gold rings */}
+    <div className="absolute -inset-2 rounded-full border-2 border-mickey-gold/60" />
+
+    <div className="absolute -inset-4 rounded-full border border-mickey-gold/30" />
+
+    {/* Photo */}
+    <img
+      src={celebrant.photo}
+      alt={celebrant.name}
+      className="w-full h-full object-cover rounded-full border-4 border-white shadow-2xl"
+    />
+  </div>
+
+  {/* Mickey Mouse */}
+  <motion.img
+    src="/images/mickeyhip.png"
+    alt="Mickey Mouse"
+    initial={{
+      opacity: 0,
+      x: 30,
+      y: 20,
+      rotate: 5,
+    }}
+    animate={{
+      opacity: 1,
+      x: 0,
+      y: 0,
+      rotate: 0,
+    }}
+    transition={{
+      duration: 0.8,
+      delay: 0.7,
+      ease: 'easeOut',
+    }}
+    className="
+      absolute
+      w-[150px]
+      sm:w-[190px]
+      md:w-[230px]
+      lg:w-[260px]
+      h-auto
+      left-1/2
+      translate-x-[35px]
+      sm:translate-x-[55px]
+      md:left-auto
+      md:right-[-10px]
+      md:translate-x-0
+      bottom-[-25px]
+      md:bottom-[-35px]
+      z-20
+      drop-shadow-[0_12px_20px_rgba(0,0,0,0.3)]
+      pointer-events-none
+    "
+  />
+</motion.div>
 
         {/* Quick info cards */}
         <motion.div
