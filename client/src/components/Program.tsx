@@ -29,94 +29,62 @@ export default function Program() {
   return (
     <section
       id="program"
-      className="py-20 sm:py-28 bg-white relative"
+      className="py-20 sm:py-28 bg-white relative overflow-hidden"
     >
+      {/* =====================================================
+          LARGE RACING FLAG
+          ===================================================== */}
+      <motion.img
+        src="/images/2flag.png"
+        alt=""
+        initial={{
+          opacity: 0,
+          y: -20,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
+        viewport={{
+          once: true,
+        }}
+        transition={{
+          duration: 0.7,
+          ease: 'easeOut',
+        }}
+        className="
+          absolute
+          top-[-20px]
+          left-1/2
+          -translate-x-1/2
+          w-72
+          sm:w-96
+          md:w-[32rem]
+          lg:w-[40rem]
+          h-auto
+          opacity-10
+          pointer-events-none
+          z-0
+        "
+      />
+
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
 
-        {/* Section Header */}
-        <div className="relative text-center mb-14">
+        {/* =====================================================
+            SECTION HEADER
+            ===================================================== */}
+        <div className="relative z-10 text-center mb-14">
 
-         {/* Mickey Mouse Decorations */}
-<div className="absolute inset-0 pointer-events-none z-10">
+          {/* =================================================
+              MICKEY DECORATIONS
+              ================================================= */}
+          <div className="absolute inset-0 pointer-events-none z-20">
 
- {/* Left Mickey - mirrored */}
-<motion.img
-  src="/images/mickeypoint.png"
-  alt="Mickey Mouse"
-  initial={{
-    opacity: 0,
-    scale: 0.8,
-    x: -15,
-  }}
-  whileInView={{
-    opacity: 1,
-    scale: 1,
-    x: 0,
-  }}
-  viewport={{
-    once: true,
-  }}
-  transition={{
-    duration: 0.6,
-    ease: 'easeOut',
-  }}
-  className="
-    absolute
-    left-[-80px]
-    sm:left-[-100px]
-    lg:left-[-130px]
-    top-[-18px]
-    w-16
-    sm:w-20
-    md:w-24
-    lg:w-28
-    h-auto
-    scale-x-[-1]
-    drop-shadow-[0_6px_10px_rgba(0,0,0,0.18)]
-  "
-/>
+          </div>
 
-{/* Right Mickey - mirrored */}
-<motion.img
-  src="/images/mickeypoint.png"
-  alt="Mickey Mouse"
-  initial={{
-    opacity: 0,
-    scale: 0.8,
-    x: 15,
-  }}
-  whileInView={{
-    opacity: 1,
-    scale: 1,
-    x: 0,
-  }}
-  viewport={{
-    once: true,
-  }}
-  transition={{
-    duration: 0.6,
-    delay: 0.1,
-    ease: 'easeOut',
-  }}
-  className="
-    absolute
-    right-[-80px]
-    sm:right-[-100px]
-    lg:right-[-130px]
-    top-[-18px]
-    w-16
-    sm:w-20
-    md:w-24
-    lg:w-28
-    h-auto
-    scale-x-[-1]
-    drop-shadow-[0_6px_10px_rgba(0,0,0,0.18)]
-  "
-/>
-
-</div>
-
-          {/* Heading */}
+          {/* =================================================
+              HEADING
+              ================================================= */}
           <motion.div
             initial={{
               opacity: 0,
@@ -129,6 +97,10 @@ export default function Program() {
             viewport={{
               once: true,
             }}
+            transition={{
+              duration: 0.6,
+            }}
+            className="relative z-30"
           >
             <p className="text-mickey-red font-semibold tracking-widest uppercase text-sm mb-2">
               What's Happening
@@ -140,15 +112,32 @@ export default function Program() {
 
             <div className="w-16 h-1 bg-mickey-gold mx-auto mt-4 rounded-full" />
           </motion.div>
+
         </div>
 
-        {/* Timeline */}
-        <div className="relative">
+        {/* =====================================================
+            TIMELINE
+            ===================================================== */}
+        <div className="relative z-10">
 
-          {/* Timeline line */}
-          <div className="absolute left-6 sm:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-mickey-red via-mickey-gold to-mickey-red/30" />
+          {/* Timeline Line */}
+          <div
+            className="
+              absolute
+              left-6
+              sm:left-8
+              top-0
+              bottom-0
+              w-0.5
+              bg-gradient-to-b
+              from-mickey-red
+              via-mickey-gold
+              to-mickey-red/30
+            "
+          />
 
           <div className="space-y-6">
+
             {program.map((item, i) => {
               const Icon = iconMap[item.icon] || Sparkles;
 
@@ -171,30 +160,138 @@ export default function Program() {
                     delay: i * 0.08,
                     duration: 0.4,
                   }}
-                  className="relative flex items-start gap-4 sm:gap-6 pl-2"
+                  className="
+                    relative
+                    flex
+                    items-start
+                    gap-4
+                    sm:gap-6
+                    pl-2
+                  "
                 >
 
-                  {/* Dot / Icon */}
-                  <div className="relative z-10 flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-mickey-red text-white flex items-center justify-center shadow-md">
+                  {/* =========================================
+                      TIMELINE ICON
+                      ========================================= */}
+                  <div
+                    className="
+                      relative
+                      z-10
+                      flex-shrink-0
+                      w-10
+                      h-10
+                      sm:w-12
+                      sm:h-12
+                      rounded-full
+                      bg-mickey-red
+                      text-white
+                      flex
+                      items-center
+                      justify-center
+                      shadow-md
+                    "
+                  >
                     <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
+                  
 
-                  {/* Content */}
-                  <div className="flex-1 bg-cream/80 rounded-xl px-4 py-3 sm:px-5 sm:py-4 border border-mickey-gold/10 hover:border-mickey-gold/30 transition-colors">
-                    <p className="text-mickey-gold text-xs font-semibold tracking-wider uppercase mb-0.5">
+                  {/* =========================================
+                      PROGRAM CONTENT
+                      ========================================= */}
+                  <div
+                    className="
+                      flex-1
+                      bg-cream/80
+                      rounded-xl
+                      px-4
+                      py-3
+                      sm:px-5
+                      sm:py-4
+                      border
+                      border-mickey-gold/10
+                      hover:border-mickey-gold/30
+                      transition-colors
+                    "
+                  >
+                    <p
+                      className="
+                        text-mickey-gold
+                        text-xs
+                        font-semibold
+                        tracking-wider
+                        uppercase
+                        mb-0.5
+                      "
+                    >
                       {item.time}
                     </p>
 
-                    <p className="text-mickey-black font-medium text-base sm:text-lg">
+                    <p
+                      className="
+                        text-mickey-black
+                        font-medium
+                        text-base
+                        sm:text-lg
+                      "
+                    >
                       {item.activity}
                     </p>
                   </div>
+                  
 
                 </motion.div>
+                
               );
-            })}
+                        })}
+
           </div>
-        </div>
+
+          {/* =====================================================
+              BOTTOM RIGHT MICKEY
+              ===================================================== */}
+          <motion.img
+            src="/images/mickeypoint.png"
+            alt="Mickey Mouse"
+            initial={{
+              opacity: 0,
+              scale: 0.8,
+              x: 20,
+            }}
+            whileInView={{
+              opacity: 1,
+              scale: 1,
+              x: 0,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              duration: 0.6,
+              ease: 'easeOut',
+            }}
+            className="
+              absolute
+              right-[-10px]
+              sm:right-[-30px]
+              md:right-[-45px]
+
+              bottom-[-50px]
+
+              w-50
+              sm:w-54
+              md:w-58
+              lg:w-62
+
+              h-auto
+              scale-x-[-1]
+              z-40
+
+              drop-shadow-[0_6px_10px_rgba(0,0,0,0.18)]
+            "
+          />
+
+        </div>  
+
       </div>
     </section>
   );

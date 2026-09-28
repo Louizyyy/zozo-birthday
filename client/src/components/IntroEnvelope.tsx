@@ -108,6 +108,49 @@ export default function IntroEnvelope({
             >
               <MickeyEars size={60} />
             </motion.div>
+
+            {/* Racing Flags - Bottom Left */}
+            <motion.img
+              src="/images/1flag.png"
+              alt="Racing flags"
+              className="
+                absolute
+                left-[-20px]
+                bottom-[4%]
+                w-52
+                sm:w-64
+                md:w-80
+                lg:w-96
+                h-auto
+                opacity-50
+                drop-shadow-[0_6px_10px_rgba(0,0,0,0.2)]
+              "
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 0.35, x: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+            />
+
+            {/* Racing Flags - Bottom Right */}
+            <motion.img
+              src="/images/1flag.png"
+              alt="Racing flags"
+              className="
+                absolute
+                right-[-20px]
+                bottom-[4%]
+                w-52
+                sm:w-64
+                md:w-80
+                lg:w-96
+                h-auto
+                -scale-x-100
+                opacity-50
+                drop-shadow-[0_6px_10px_rgba(0,0,0,0.2)]
+              "
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 0.35, x: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+            />
           </div>
 
           {/* Confetti */}
@@ -190,28 +233,59 @@ export default function IntroEnvelope({
                         delay: 0.1,
                       }}
                     >
-                      <div className="h-full flex flex-col items-center justify-center p-4 bg-gradient-to-b from-white via-cream to-soft-pink/30">
-                        <div className="w-12 h-12 mb-2">
-                          <MickeyEars
-                            size={48}
-                            color="#E31C23"
-                          />
-                        </div>
+                      <div className="relative h-full flex flex-col items-center justify-center p-4 bg-gradient-to-b from-white via-cream to-soft-pink/30">
 
-                        <p className="font-display text-mickey-red text-lg sm:text-xl font-semibold tracking-wide">
-                          You're Invited!
-                        </p>
+              {/* Mickey Watermark - Behind the Text */}
+              <motion.img
+                src="/images/mickeyballoon.png"
+                alt="Mickey Mouse"
+                initial={{
+                  opacity: 0,
+                  scale: 0.8,
+                }}
+                animate={{
+                  opacity: 0.16,
+                  scale: 1,
+                }}
+                transition={{
+                  duration: 0.8,
+                  ease: 'easeOut',
+                }}
+                className="
+                  absolute
+                  left-1/2
+                  top-1/2
+                  -translate-x-1/2
+                  -translate-y-1/2
+                  w-56
+                  sm:w-64
+                  md:w-72
+                  h-auto
+                  pointer-events-none
+                  z-0
+                "
+              />
 
-                        <div className="w-16 h-0.5 bg-mickey-gold my-2" />
+  {/* Text Content - Above Mickey */}
+  <div className="relative z-10 flex flex-col items-center text-center">
 
-                        <p className="font-display text-mickey-black text-base sm:text-lg">
-                          Zozo's
-                        </p>
 
-                        <p className="text-sm text-mickey-black/70 mt-1">
-                          Baptismal Ceremony
-                        </p>
-                      </div>
+    <p className="font-display text-mickey-red text-lg sm:text-xl font-semibold tracking-wide">
+      You're Invited!
+    </p>
+
+    <div className="w-16 h-0.5 bg-mickey-gold my-2" />
+
+    <p className="font-display text-mickey-black text-base sm:text-lg">
+      Zozo's
+    </p>
+
+    <p className="text-sm text-mickey-black/70 mt-1">
+      Baptismal Ceremony
+    </p>
+
+  </div>
+</div>
                     </motion.div>
                   )}
                 </AnimatePresence>

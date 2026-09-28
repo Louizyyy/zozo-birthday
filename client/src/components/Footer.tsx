@@ -23,9 +23,14 @@ export default function Footer() {
         <p className="text-mickey-gold font-semibold text-base mb-6">
           {celebrant.name}'s Baptismal Celebration
         </p>
-        <p className="text-white/40 text-xs">
-          louidev.work
-        </p>
+        <a
+        href="https://louidev.work"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-white/40 text-xs hover:text-white/70 transition-colors"
+      >
+        louidev.work
+      </a>
       </div>
     </footer>
   );

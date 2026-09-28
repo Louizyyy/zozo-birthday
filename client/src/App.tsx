@@ -22,15 +22,15 @@ function App() {
 
       {showInvitation && (
         <div className="min-h-screen">
-          <Navbar />
+         {/* <Navbar /> */}
           <main>
             <Hero />
-            <BirthdayDetails />
-            <Celebrant />
-            <Program />
-            <Venue />
-            <RSVP />
+          {/* <BirthdayDetails /> */}
             <Gallery />
+           {/* <Celebrant /> */}
+            <Program /> 
+          {/* <Venue /> */}
+            <RSVP />
             <BirthdayMessage />
           </main>
           <Footer />
