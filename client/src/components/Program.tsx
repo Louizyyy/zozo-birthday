@@ -31,38 +31,44 @@ export default function Program() {
       id="program"
       className="py-20 sm:py-28 bg-white relative overflow-hidden"
     >
+      {/* =========================================
+    PROGRAM BACKGROUND
+    ========================================= */}
+    <img
+      src="/images/bg-program.png"
+      alt=""
+      aria-hidden="true"
+      className="
+        absolute
+        inset-0
+        w-full
+        h-full
+        object-cover
+        object-center
+        pointer-events-none
+        z-0
+      "
+    />
       {/* =====================================================
           LARGE RACING FLAG
           ===================================================== */}
       <motion.img
         src="/images/2flag.png"
         alt=""
-        initial={{
-          opacity: 0,
-          y: -20,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        viewport={{
-          once: true,
-        }}
-        transition={{
-          duration: 0.7,
-          ease: 'easeOut',
-        }}
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 0.25, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
         className="
           absolute
-          top-[-20px]
+          top-[-60px]
           left-1/2
           -translate-x-1/2
-          w-72
+          w-82
           sm:w-96
           md:w-[32rem]
           lg:w-[40rem]
           h-auto
-          opacity-10
           pointer-events-none
           z-0
         "
@@ -73,7 +79,7 @@ export default function Program() {
         {/* =====================================================
             SECTION HEADER
             ===================================================== */}
-        <div className="relative z-10 text-center mb-14">
+        <div className="relative z-50 text-center mb-14">
 
           {/* =================================================
               MICKEY DECORATIONS
@@ -102,15 +108,18 @@ export default function Program() {
             }}
             className="relative z-30"
           >
-            <p className="text-mickey-red font-semibold tracking-widest uppercase text-sm mb-2">
-              What's Happening
-            </p>
+<div className="relative inline-flex flex-col items-center px-5 py-3 sm:px-8 sm:py-4">
 
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-mickey-black">
-              Event Program
-            </h2>
+  <p className="text-mickey-red font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-1">
+    What's Happening
+  </p>
 
-            <div className="w-16 h-1 bg-mickey-gold mx-auto mt-4 rounded-full" />
+  <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-mickey-black leading-tight">
+    Event Program
+  </h2>
+
+</div>
+
           </motion.div>
 
         </div>
@@ -171,29 +180,60 @@ export default function Program() {
                 >
 
                   {/* =========================================
-                      TIMELINE ICON
-                      ========================================= */}
-                  <div
+                    TIMELINE ICON + CONNECTOR
+                    ========================================= */}
+                <div
+                  className="
+                    relative
+                    z-20
+                    flex-shrink-0
+                    w-10
+                    h-10
+                    sm:w-12
+                    sm:h-12
+                    rounded-full
+                    bg-mickey-red
+                    text-white
+                    flex
+                    items-center
+                    justify-center
+                    border-2
+                    border-[#d6a13a]
+                    shadow-[0_3px_8px_rgba(0,0,0,0.25)]
+                    
+                    /* Horizontal connector */
+                    after:content-['']
+                    after:absolute
+                    after:top-1/2
+                    after:left-full
+                    after:-translate-y-1/2
+                    after:w-4
+                    sm:after:w-6
+                    after:h-[2px]
+                    after:bg-[#d6a13a]
+                  "
+                >
+                  <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+
+                  {/* Small connector end */}
+                  <span
                     className="
-                      relative
-                      z-10
-                      flex-shrink-0
-                      w-10
-                      h-10
-                      sm:w-12
-                      sm:h-12
+                      absolute
+                      top-1/2
+                      left-[calc(100%+16px)]
+                      sm:left-[calc(100%+24px)]
+                      -translate-y-1/2
+                      w-2
+                      h-2
                       rounded-full
-                      bg-mickey-red
-                      text-white
-                      flex
-                      items-center
-                      justify-center
-                      shadow-md
+                      bg-[#d6a13a]
+                      border
+                      border-white
+                      z-30
                     "
-                  >
-                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </div>
-                  
+                  />
+                </div>
+                                  
 
                   {/* =========================================
                       PROGRAM CONTENT
@@ -208,19 +248,21 @@ export default function Program() {
                       sm:px-5
                       sm:py-4
                       border
-                      border-mickey-gold/10
-                      hover:border-mickey-gold/30
+                      border-mickey-gold/100
+                      hover:border-mickey-gold/40
                       transition-colors
                     "
                   >
                     <p
                       className="
-                        text-mickey-gold
+                        text-[#d89b00]
                         text-xs
-                        font-semibold
-                        tracking-wider
+                        sm:text-sm
+                        font-bold
+                        tracking-wide
                         uppercase
-                        mb-0.5
+                        leading-tight
+                        mb-1
                       "
                     >
                       {item.time}
@@ -228,10 +270,12 @@ export default function Program() {
 
                     <p
                       className="
-                        text-mickey-black
-                        font-medium
-                        text-base
-                        sm:text-lg
+                        text-[#171717]
+                        font-display
+                        font-bold
+                        text-lg
+                        sm:text-xl
+                        leading-tight
                       "
                     >
                       {item.activity}
@@ -271,13 +315,13 @@ export default function Program() {
             }}
             className="
               absolute
-              right-[-10px]
+              right-[-20px]
               sm:right-[-30px]
               md:right-[-45px]
 
-              bottom-[-50px]
+              bottom-[25px]
 
-              w-50
+              w-55
               sm:w-54
               md:w-58
               lg:w-62
@@ -293,6 +337,8 @@ export default function Program() {
         </div>  
 
       </div>
+
+   
     </section>
   );
 }

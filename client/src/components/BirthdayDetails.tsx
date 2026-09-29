@@ -1,217 +1,332 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { invitationData } from '../data/invitation';
 
-function useCountdown(targetDate: string) {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+const EVENT_DATE = new Date('2026-10-28T15:00:00+08:00');
 
-  useEffect(() => {
-    const target = new Date(targetDate + 'T15:00:00').getTime();
+function getTimeLeft() {
+  const difference = Math.max(0, EVENT_DATE.getTime() - Date.now());
 
-    const update = () => {
-      const now = Date.now();
-      const diff = Math.max(0, target - now);
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((diff % (1000 * 60)) / 1000),
-      });
-    };
-
-    update();
-    const id = setInterval(update, 1000);
-    return () => clearInterval(id);
-  }, [targetDate]);
-
-  return timeLeft;
+  return {
+    days: Math.floor(difference / 86_400_000),
+    hours: Math.floor((difference / 3_600_000) % 24),
+    minutes: Math.floor((difference / 60_000) % 60),
+    seconds: Math.floor((difference / 1_000) % 60),
+  };
 }
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
 
 export default function BirthdayDetails() {
   const { event } = invitationData;
-  const countdown = useCountdown(event.date);
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setTimeLeft(getTimeLeft());
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const countdown = [
+    { label: 'Days', value: timeLeft.days },
+    { label: 'Hours', value: timeLeft.hours },
+    { label: 'Minutes', value: timeLeft.minutes },
+    { label: 'Seconds', value: timeLeft.seconds },
+  ];
 
   return (
     <section
-        id="details"
-        className="py-20 sm:py-28 bg-cream relative overflow-hidden"
-      >
-        {/* LEFT RACING FLAG */}
-        <img
-          src="/images/1flag.png"
-          alt=""
-          className="absolute left-2 sm:left-6 lg:left-10 top-8 w-30 sm:w-38 lg:w-46 h-auto pointer-events-none z-10"
-        />
+      id="details"
+      className="relative w-full overflow-hidden bg-[#fff9ee]"
+    >
+      {/* Background image */}
+      <img
+        src="/images/bg-details.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center"
+      />
 
-        {/* RIGHT RACING FLAG */}
-        <img
-          src="/images/1flag.png"
-          alt=""
-          className="absolute right-2 sm:right-6 lg:right-10 top-8 w-30 sm:w-38 lg:w-46 h-auto -scale-x-100 pointer-events-none z-10"
-        />
+      <div className="relative z-10 mx-auto max-w-3xl px-4 pb-28 pt-20 sm:px-6 sm:pb-32 sm:pt-24">
+        {/* Heading */}
+<motion.header
+  initial={{ opacity: 0, y: 24 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.6 }}
+  className="relative mb-8 text-center"
+>
+  {/* LEFT FLAG */}
+  <motion.img
+    src="/images/1flag.png"
+    alt=""
+    aria-hidden="true"
+    initial={{ opacity: 0, x: -20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6 }}
+    className="
+      absolute
+      left-[15px]
+      sm:left-[-70px]
+      md:left-[-100px]
+      top-[10px]
+      -translate-y-1/2
+      w-24
+      sm:w-32
+      md:w-40
+      lg:w-48
+      h-auto
+      pointer-events-none
+      z-0
+    "
+  />
 
-        {/* MICKEY MOUSE */}
-        <motion.img
-          src="/images/mickeypoint.png"
-          alt="Mickey Mouse"
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        className="
-          absolute
+  {/* RIGHT FLAG */}
+  <motion.img
+    src="/images/1flag.png"
+    alt=""
+    aria-hidden="true"
+    initial={{ opacity: 0, x: 20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6 }}
+    className="
+      absolute
+      right-[15px]
+      sm:right-[-70px]
+      md:right-[-100px]
+      top-[10px]
+      -translate-y-1/2
+      w-24
+      sm:w-32
+      md:w-40
+      lg:w-48
+      h-auto
+      -scale-x-100
+      pointer-events-none
+      z-0
+    "
+  />
 
-          left-[20px]
-          sm:left-[-30px]
-          md:left-[-45px]
-          lg:left-[-60px]
+  {/* HEADER CONTENT */}
+  <div className="relative z-10">
+    <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#bd111b] sm:text-sm">
+      Save the Date
+    </p>
 
-          bottom-[15px]
-          sm:bottom-[10px]
-          md:bottom-[5px]
-          lg:bottom-0
+    <h2 className="font-display text-4xl font-bold leading-tight text-[#1d1b1b] sm:text-5xl">
+      Baptismal Details
+    </h2>
 
-          w-44
-          sm:w-52
-          md:w-60
-          lg:w-68
-
-          h-auto
-          z-10
-          pointer-events-none
-          drop-shadow-[0_8px_14px_rgba(0,0,0,0.18)]
-        "
-        />
-
-        {/* Decorative side ears */}
-        <div className="absolute top-10 left-0 opacity-[0.04] -translate-x-1/3">
-        <svg width="200" height="170" viewBox="0 0 100 85" fill="#E31C23">
-          <circle cx="22" cy="28" r="22" /><circle cx="78" cy="28" r="22" /><circle cx="50" cy="55" r="32" />
-        </svg>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          variants={fadeUp}
-          className="text-center mb-12"
-        >
-          <p className="text-mickey-red font-semibold tracking-widest uppercase text-sm mb-2">Save the Date</p>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-mickey-black">
-            Baptismal Details
-          </h2>
-          <div className="w-16 h-1 bg-mickey-gold mx-auto mt-4 rounded-full" />
-        </motion.div>
+    <div
+      aria-hidden="true"
+      className="mx-auto mt-5 flex items-center justify-center gap-3"
+    >
+      <span className="h-px w-14 bg-[#d6a23e]" />
+      <span className="text-lg text-[#d6a23e]">✦</span>
+      <span className="h-px w-14 bg-[#d6a23e]" />
+    </div>
+  </div>
+</motion.header>
 
         {/* Countdown */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={fadeUp}
-          className="grid grid-cols-4 gap-2 sm:gap-4 mb-14 max-w-md mx-auto"
-        >
-          {[
-            { value: countdown.days, label: 'Days' },
-            { value: countdown.hours, label: 'Hours' },
-            { value: countdown.minutes, label: 'Minutes' },
-            { value: countdown.seconds, label: 'Seconds' },
-          ].map((item) => (
-            <div
+        <div className="mb-8 grid grid-cols-4 gap-2 sm:gap-4">
+          {countdown.map((item, index) => (
+            <motion.div
               key={item.label}
-              className="bg-white rounded-2xl shadow-lg border border-mickey-gold/20 p-3 sm:p-5 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08, duration: 0.45 }}
+              className="overflow-hidden rounded-xl border border-[#d7a346] bg-white shadow-md sm:rounded-2xl"
             >
-              <p className="font-display text-2xl sm:text-4xl font-bold text-mickey-red tabular-nums">
-                {String(item.value).padStart(2, '0')}
-              </p>
-              <p className="text-[10px] sm:text-xs text-mickey-black/60 font-medium uppercase tracking-wider mt-1">
-                {item.label}
-              </p>
-            </div>
-          ))}
-        </motion.div>
-
-       {/* Detail cards */}
-<div className="grid sm:grid-cols-3 gap-5">
-  {[
-    { icon: Calendar, title: 'Date', value: event.fullDateDisplay },
-    { icon: Clock, title: 'Time', value: event.time },
-    { icon: MapPin, title: 'Venue', value: event.venue },
-  ].map((item, i) => (
-    <motion.div
-      key={item.title}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: i * 0.1, duration: 0.5 }}
-      className="bg-white rounded-2xl p-6 shadow-md border border-gray-100 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-    >
-      <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-mickey-red/10 flex items-center justify-center">
-        <item.icon className="w-6 h-6 text-mickey-red" />
-      </div>
-
-      <p className="text-mickey-gold text-xs font-semibold tracking-wider uppercase mb-1">
-        {item.title}
-      </p>
-
-      <p className="text-mickey-black font-medium text-sm sm:text-base leading-snug">
-        {item.value}
-      </p>
-
-      {/* GOOGLE MAP - VENUE ONLY */}
-      {item.title === 'Venue' && (
-        <div className="mt-5">
-          <a
-            href={event.mapUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block group"
-          >
-            <div className="relative overflow-hidden rounded-xl border border-mickey-gold/20 shadow-sm">
-              <iframe
-                src="https://www.google.com/maps?q=Le+Parc+Pasay+City+Metro+Manila&output=embed"
-                width="100%"
-                height="180"
-                style={{ border: 0 }}
-                loading="lazy"
-                title="Le Parc Map"
-                className="pointer-events-none"
-              />
-
-              {/* Click overlay */}
-              <div className="absolute inset-0 bg-transparent group-hover:bg-black/5 transition-colors" />
-
-              {/* View Map Label */}
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-white/95 px-3 py-1.5 rounded-full shadow-md">
-                <span className="text-xs font-semibold text-mickey-red whitespace-nowrap">
-                  📍 View on Google Maps
+              <div className="bg-gradient-to-b from-[#ef1725] to-[#b90b17] px-1 py-3 text-center sm:py-4">
+                <span className="font-display text-2xl font-bold tabular-nums text-white sm:text-4xl">
+                  {String(item.value).padStart(2, '0')}
                 </span>
               </div>
-            </div>
-          </a>
-        </div>
-      )}
-    </motion.div>
-  ))}
-</div>
 
-        {/* Full address */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+              <p className="px-1 py-2 text-center text-[9px] font-semibold uppercase tracking-wider text-[#292323] sm:text-xs">
+                {item.label}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Event ticket */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center text-mickey-black/60 text-sm mt-8 max-w-md mx-auto"
+          transition={{ duration: 0.65 }}
+          className="overflow-hidden rounded-[28px] border border-[#d7a346] bg-[#fffdf8]/95 shadow-[0_18px_45px_rgba(75,41,15,0.13)]"
         >
-          {event.address}
-        </motion.p>
+          {/* Racing stripe */}
+          <div
+            aria-hidden="true"
+            className="h-3 bg-[repeating-linear-gradient(110deg,#c70e1c_0_22px,#fff_22px_44px)]"
+          />
+
+          <div className="px-5 py-2 sm:px-8">
+            {/* Date */}
+            <div className="flex items-center gap-4 py-6 sm:gap-6">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-[#d7a346] bg-[#c80e1b] text-white shadow-md sm:h-16 sm:w-16">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="h-7 w-7"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="5" width="18" height="16" rx="2" />
+                  <path d="M7 3v4M17 3v4M3 10h18" />
+                </svg>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd111b]">
+                  Date
+                </p>
+                <p className="mt-1 font-display text-xl font-bold leading-tight text-[#201d1d] sm:text-2xl">
+                  Wednesday, October 28, 2026
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t border-[#d7a346]/45" />
+
+            {/* Time */}
+            <div className="flex items-center gap-4 py-6 sm:gap-6">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-[#d7a346] bg-[#c80e1b] text-white shadow-md sm:h-16 sm:w-16">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="h-7 w-7"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" />
+                </svg>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd111b]">
+                  Time
+                </p>
+                <p className="mt-1 font-display text-2xl font-bold text-[#201d1d]">
+                  {event.time}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t border-[#d7a346]/45" />
+
+            {/* Venue */}
+            <div className="flex items-center gap-4 py-6 sm:gap-6">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-[#d7a346] bg-[#c80e1b] text-white shadow-md sm:h-16 sm:w-16">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="h-7 w-7"
+                  aria-hidden="true"
+                >
+                  <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+                  <circle cx="12" cy="10" r="2.5" />
+                </svg>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd111b]">
+                  Venue
+                </p>
+                <p className="mt-1 font-display text-2xl font-bold text-[#201d1d]">
+                  {event.venue}
+                </p>
+              </div>
+            </div>
+
+            {/* Map */}
+<div className="relative overflow-hidden rounded-2xl border border-[#d7a346]/70 bg-[#f7f0e4]">
+  <iframe
+    src="https://www.google.com/maps?q=Le+Parc+Pasay+City+Metro+Manila&output=embed"
+    title={`${event.venue} location map`}
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+    className="h-48 w-full border-0 sm:h-60"
+  />
+</div>
+  {/* Mickey Overlay */}
+<motion.img
+  src="/images/mickeypoint.png"
+  alt="Mickey Mouse"
+
+  /* Entrance animation */
+  initial={{
+    opacity: 0,
+    scale: 0.7,
+    x: -40,
+    y: 20,
+  }}
+
+  /* After appearing, continuously move slightly */
+  whileInView={{
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    y: 0,
+  }}
+
+  viewport={{ once: true }}
+
+  transition={{
+    opacity: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+    scale: {
+      duration: 0.6,
+      ease: "backOut",
+    },
+    x: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+    y: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  }}
+
+  animate={{
+    y: [0, -5, 0],
+    rotate: [0, -1, 0, 1, 0],
+  }}
+
+  className="
+    absolute
+    left-[45px]
+    bottom-[45px]
+    w-42
+    sm:w-40
+    md:w-44
+    h-auto
+    z-20
+    pointer-events-none
+    drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]
+  "
+/>
+          </div>
+          <div
+            aria-hidden="true"
+            className="h-3 bg-[repeating-linear-gradient(110deg,#c70e1c_0_22px,#fff_22px_44px)]"
+          />
+        </motion.div>
       </div>
     </section>
   );
