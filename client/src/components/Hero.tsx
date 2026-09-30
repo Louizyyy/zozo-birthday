@@ -124,14 +124,14 @@ export default function Hero() {
           <div
             className="
               relative
-              w-70
-              h-70
+              w-63
+              h-63
               sm:w-52
               sm:h-52
               md:w-60
               md:h-60
               mx-auto
-              -translate-y-[113px]
+              -translate-y-[106px]
               sm:-translate-y-20
               md:-translate-y-24
             "
