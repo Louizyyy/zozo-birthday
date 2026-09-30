@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { invitationData } from '../data/invitation';
 
 export default function Hero() {
   const [carReady, setCarReady] = useState(false);
-  const { celebrant, event } = invitationData;
+  const { celebrant } = invitationData;
 
   return (
     <section
