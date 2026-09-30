@@ -3,7 +3,7 @@ export const invitationData = {
     name: "Zozo",
 
     shortMessage: "Come celebrate another magical year with me!",
-    photo: "./public/images/hero-pic.jpg", // placeholder child photo
+    photo: "/images/hero-pic.jpg", // placeholder child photo
   },
   event: {
     title: "Lorenzo's Baptismal Ceremony",
