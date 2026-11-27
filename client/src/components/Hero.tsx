@@ -40,6 +40,17 @@ export default function Hero() {
           backgroundImage: "url('/images/bg-hero.png')",
         }}
       />
+      {/* Racing flags */}
+       <img
+          src="/images/flag-left.png"
+          alt=""
+          className="pointer-events-none absolute left-0 top-0 z-[3] h-auto w-[38%] sm:w-[26%] sm:max-w-[140px]"
+        />
+        <img
+          src="/images/flag-right.png"
+          alt=""
+          className="pointer-events-none absolute right-0 top-0 z-[3] h-auto w-[38%] sm:w-[26%] sm:max-w-[140px]"
+        />
 
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-[2]">
@@ -99,9 +110,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4"
+          className="relative -top-26 z-20 mx-auto mb-8 w-[94%] max-w-[440px]"
         >
-          <br />
+          <img
+            src="/images/zozo-title.png"
+            alt="You are invited to Zozo’s Birthday Celebration"
+            className="block h-auto w-full"
+          />
         </motion.h1>
 
         {/* Celebrant Photo + Mickey */}
@@ -114,7 +129,7 @@ export default function Hero() {
             w-full
             max-w-[620px]
             mx-auto
-            mb-8
+            mb-10
             sm:mb-10
             flex
             justify-center
@@ -123,14 +138,10 @@ export default function Hero() {
           {/* Zozo's Photo */}
           <div
             className="
-              relative
-              w-63
-              h-63
-              sm:w-52
-              sm:h-52
-              md:w-60
-              md:h-60
-              mx-auto
+              relative mx-auto
+              h-52 w-52
+              sm:h-48 sm:w-48
+              md:h-52 md:w-52
               -translate-y-[106px]
               sm:-translate-y-20
               md:-translate-y-24
@@ -146,6 +157,16 @@ export default function Hero() {
               src={celebrant.photo}
               alt={celebrant.name}
               className="w-full h-full object-cover rounded-full border-4 border-white shadow-2xl"
+            />
+            <img
+              src="/images/racing-frame.png"
+              alt=""
+              aria-hidden="true"
+              className="
+                pointer-events-none absolute left-1/2 top-1/2 z-10
+                h-[126%] w-[230%] max-w-none
+                -translate-x-1/2 -translate-y-1/2
+              "
             />
           </div>
 

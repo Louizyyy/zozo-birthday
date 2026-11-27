@@ -5,7 +5,6 @@ import { Check, X } from 'lucide-react';
 export default function RSVP() {
   const [form, setForm] = useState({
     name: '',
-    guests: '1',
     contact: '',
     attending: '' as '' | 'yes' | 'no',
     message: '',
@@ -22,24 +21,46 @@ export default function RSVP() {
 
   if (submitted) {
     return (
-      <section id="rsvp" className="py-20 sm:py-28 bg-white">
-        <div className="max-w-lg mx-auto px-4 text-center">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="bg-cream rounded-3xl p-10 shadow-lg border border-mickey-gold/20"
-          >
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-mickey-red/10 flex items-center justify-center">
-              <Check className="w-8 h-8 text-mickey-red" />
+      <section id="rsvp" className="bg-[#fff9f0] px-4 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative mx-auto max-w-lg overflow-hidden rounded-3xl border border-[#dbad52] bg-linear-to-br from-[#fff8e8] to-[#f6dbab] p-6 shadow-lg"
+        >
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-2"
+            style={{
+              backgroundImage:
+                'conic-gradient(#241519 25%, #fff1d9 0 50%, #241519 0 75%, #fff1d9 0)',
+              backgroundSize: '12px 12px',
+            }}
+          />
+          <div className="grid grid-cols-[minmax(0,1fr)_7rem] items-center gap-3 sm:grid-cols-[minmax(0,1fr)_9rem]">
+            <div>
+              <div className="mb-3 grid h-10 w-10 place-items-center rounded-full bg-[#861923] text-[#fff1d9]">
+                <Check aria-hidden="true" className="h-5 w-5" />
+              </div>
+              <h3 className="font-display text-2xl font-bold text-[#861923] sm:text-3xl">
+                Thank You!
+              </h3>
             </div>
-            <h3 className="font-display text-2xl font-bold text-mickey-black mb-2">Thank You!</h3>
-            <p className="text-mickey-black/70">
-              {form.attending === 'yes'
-                ? "We're excited to celebrate with you! See you soon 🎉"
-                : "We'll miss you, but thank you for letting us know."}
-            </p>
-          </motion.div>
-        </div>
+            {/* Mickey image */}
+              <div
+              aria-hidden="true"
+              className="h-40 w-full self-start bg-center bg-no-repeat sm:h-52"
+              style={{
+                backgroundImage: "url('/images/mickeyballoon.png')",
+                backgroundSize: 'auto 100%',
+              }}
+            />
+          </div>
+          <p className="mt-4 border-t border-[#dbad52]/60 pt-4 leading-relaxed text-[#54312b]">
+            {form.attending === 'yes'
+              ? "We're excited to celebrate with you! See you soon"
+              : "We'll miss you, but thank you for letting us know."}
+          </p>
+        </motion.div>
       </section>
     );
   }
@@ -81,30 +102,25 @@ export default function RSVP() {
             />
           </div>
 
-          {/* Guests + Contact */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">No. of Guests</label>
-              <select
-                value={form.guests}
-                onChange={(e) => setForm({ ...form, guests: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-mickey-red/40 focus:border-mickey-red transition text-mickey-black"
-              >
-                {[1, 2, 3, 4, 5, 6].map((n) => (
-                  <option key={n} value={n}>{n}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">Contact Number</label>
-              <input
+          {/* Contact */}
+          <div>
+            <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">Contact Number</label>
+            <input
                 type="tel"
+                inputMode="numeric"
+                autoComplete="tel-national"
+                pattern="[0-9]{11}"
                 value={form.contact}
-                onChange={(e) => setForm({ ...form, contact: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-mickey-red/40 focus:border-mickey-red transition text-mickey-black"
-                placeholder="Optional"
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    contact: e.target.value.replace(/[^0-9]/g, '').slice(0, 11),
+                  })
+                }
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-mickey-black focus:border-mickey-red focus:outline-none focus:ring-2 focus:ring-mickey-red/40"
+                placeholder="09XXXXXXXXX (optional)"
+                title="Enter exactly 11 digits, e.g. 09123456789"
               />
-            </div>
           </div>
 
           {/* Attendance */}

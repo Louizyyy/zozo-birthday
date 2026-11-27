@@ -23,7 +23,6 @@ Open the URL shown (usually http://localhost:5173).
 Edit `src/data/invitation.ts`:
 - Celebrant name, age, photo, message
 - Event date, time, venue, address
-- Program schedule
 - Gallery images
 - Birthday wish text
 
@@ -37,7 +36,6 @@ src/
     Hero.tsx
     BirthdayDetails.tsx # Countdown + details
     Celebrant.tsx
-    Program.tsx
     Venue.tsx
     RSVP.tsx
     Gallery.tsx

@@ -21,7 +21,7 @@ export default function Footer() {
           Thank you for celebrating with us!
         </p>
         <p className="text-mickey-gold font-semibold text-base mb-6">
-          {celebrant.name}'s Baptismal Celebration
+          {celebrant.name}'s 1st Birthday Celebration
         </p>
         <a
         href="https://louidev.work"

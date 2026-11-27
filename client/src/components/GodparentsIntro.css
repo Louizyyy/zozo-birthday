@@ -1,0 +1,178 @@
+.godparents-intro {
+  display: grid;
+  min-height: 100svh;
+  align-items: safe center;
+  padding: clamp(10px, 3vw, 24px);
+  background: radial-gradient(ellipse at top, #8e111d, #39080e 75%);
+}
+
+.godparents-layout {
+  width: min(100%, 31rem);
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: 1.1rem;
+  background: #fff4df;
+  box-shadow: 0 12px 32px #29040680;
+}
+
+.godparents-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.godparents-divider {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: .85rem 1.1rem 0;
+}
+
+.godparents-divider::before,
+.godparents-divider::after {
+  content: '';
+  flex: 1;
+  height: 5px;
+  border-top: 2px solid #a21422;
+  border-bottom: 1px solid #d9a839;
+}
+
+.godparents-divider span {
+  width: 32px;
+  height: 12px;
+  background: conic-gradient(#25191a 25%, transparent 0 50%, #25191a 0 75%, transparent 0) 0 0 / 12px 12px;
+  transform: skewX(-12deg);
+}
+
+.godparents-letter {
+  padding: .75rem .8rem 0;
+  color: #30201d;
+  text-align: center;
+}
+
+.godparents-line {
+  margin: .18rem 0;
+  font-size: clamp(.85rem, 3.55vw, 1.03rem);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.godparents-line-0 {
+  margin: 0 auto .6rem;
+  max-width: 14ch;
+  color: #760e19;
+  font: 800 clamp(1.65rem, 7vw, 2.65rem)/1.04 Georgia, serif;
+}
+
+.godparents-line-4 {
+  margin-top: .8rem;
+}
+
+.godparents-line-5 {
+  margin-top: .6rem;
+}
+
+.godparents-line-6 {
+  color: #760e19;
+  font: italic 700 clamp(1.35rem, 5vw, 1.95rem)/1.2 Georgia, serif;
+}
+
+.godparents-line-7 {
+  width: fit-content;
+  margin: .55rem auto 0;
+  padding: .3rem .7rem;
+  border-radius: .35rem;
+  background: #86121f;
+  color: #fff4df;
+}
+
+.godparents-racer {
+  display: block;
+  width: min(90%, 22rem);
+  height: auto;
+  margin: 0 auto;
+}
+
+.godparents-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: 0 .75rem .85rem;
+}
+
+.godparents-actions button {
+  flex: 1 1 7.5rem;
+  min-height: 44px;
+  padding: .55rem .4rem;
+  border: 1px solid #d39d32;
+  border-radius: .7rem;
+  background: #86121f;
+  color: #fff4df;
+  font-size: clamp(.76rem, 3.2vw, .95rem);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.godparents-actions .godparents-open-button {
+  background: #ffcd55;
+  color: #5f0e18;
+}
+
+.godparents-actions button:focus-visible {
+  outline: 2px solid #86121f;
+  outline-offset: 2px;
+}
+
+.godparents-letter .word-hidden {
+  opacity: 0;
+}
+
+.godparents-letter .word-visible {
+  opacity: 1;
+  transition: opacity 220ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .godparents-letter .word-visible {
+    transition: none;
+  }
+}
+
+.godparents-playback-error {
+  margin: .75rem auto 0;
+  color: #fff4df;
+  text-align: center;
+}
+
+.godparents-confetti {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.godparents-confetti-piece,
+.godparents-confetti-flash {
+  position: absolute;
+}
+
+.godparents-confetti-piece {
+  width: 7px;
+  height: 11px;
+  border-radius: 2px;
+}
+
+.godparents-confetti-piece:nth-child(3n) {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.godparents-confetti-flash {
+  inset: -14px;
+  border: 2px solid #ffca47;
+  border-radius: 50%;
+}
+
+.godparents-open-button:disabled {
+  cursor: default;
+}

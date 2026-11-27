@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { invitationData } from '../data/invitation';
+import Venue from './Venue';
 
-const EVENT_DATE = new Date('2026-10-28T15:00:00+08:00');
+const EVENT_DATE = new Date(invitationData.event.startsAt);
 
 function getTimeLeft() {
   const difference = Math.max(0, EVENT_DATE.getTime() - Date.now());
@@ -116,7 +117,7 @@ export default function BirthdayDetails() {
     </p>
 
     <h2 className="font-display text-4xl font-bold leading-tight text-[#1d1b1b] sm:text-5xl">
-      Baptismal Details
+      Birthday Details
     </h2>
 
     <div
@@ -190,7 +191,7 @@ export default function BirthdayDetails() {
                   Date
                 </p>
                 <p className="mt-1 font-display text-xl font-bold leading-tight text-[#201d1d] sm:text-2xl">
-                  Wednesday, October 28, 2026
+                  {event.fullDateDisplay}
                 </p>
               </div>
             </div>
@@ -225,42 +226,7 @@ export default function BirthdayDetails() {
 
             <div className="border-t border-[#d7a346]/45" />
 
-            {/* Venue */}
-            <div className="flex items-center gap-4 py-6 sm:gap-6">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-[#d7a346] bg-[#c80e1b] text-white shadow-md sm:h-16 sm:w-16">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  className="h-7 w-7"
-                  aria-hidden="true"
-                >
-                  <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
-                  <circle cx="12" cy="10" r="2.5" />
-                </svg>
-              </div>
-
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd111b]">
-                  Venue
-                </p>
-                <p className="mt-1 font-display text-2xl font-bold text-[#201d1d]">
-                  {event.venue}
-                </p>
-              </div>
-            </div>
-
-            {/* Map */}
-<div className="relative overflow-hidden rounded-2xl border border-[#d7a346]/70 bg-[#f7f0e4]">
-  <iframe
-    src="https://www.google.com/maps?q=Le+Parc+Pasay+City+Metro+Manila&output=embed"
-    title={`${event.venue} location map`}
-    loading="lazy"
-    referrerPolicy="no-referrer-when-downgrade"
-    className="h-48 w-full border-0 sm:h-60"
-  />
-</div>
+            <Venue />
   {/* Mickey Overlay */}
 <motion.img
   src="/images/mickeypoint.png"

@@ -1,3 +1,7 @@
+const eventStart = "2027-02-20T13:30:00+08:00";
+const eventStartDate = new Date(eventStart);
+const eventTimeZone = "Asia/Manila";
+
 export const invitationData = {
   celebrant: {
     name: "Zozo",
@@ -6,22 +10,29 @@ export const invitationData = {
     photo: "/images/hero-pic.jpg", // placeholder child photo
   },
   event: {
-    title: "Lorenzo's Baptismal Ceremony",
-    date: "2026-10-28",
-    day: "Wednesday",
-    time: "3:00 PM",
-    venue: "Le Parc",
-    address: "Metropolitan Park along EDSA Extension, at the corner of Macapagal Boulevard, in Pasay City, Metro Manila",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=Le+Parc+Pasay+City+Metro+Manila",
-    fullDateDisplay: "October 28, 2026, Wednesday",
+    title: "Lorenzo's Birthday Ceremony",
+    startsAt: eventStart,
+    time: new Intl.DateTimeFormat("en-US", {
+      timeZone: eventTimeZone,
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(eventStartDate),
+    fullDateDisplay: new Intl.DateTimeFormat("en-US", {
+      timeZone: eventTimeZone,
+      dateStyle: "full",
+    }).format(eventStartDate),
   },
-  program: [
-    { time: "2:45 PM", activity: "Guest Arrival", icon: "users" },
-    { time: "3:00 PM", activity: "Welcome & Opening", icon: "sparkles" },
-    { time: "3:45 PM", activity: "Food & Snacks", icon: "utensils" },
-    { time: "4:15 PM", activity: "Cake Ceremony", icon: "cake" },
-    { time: "4:45 PM", activity: "Photo Session", icon: "camera" },
-    { time: "5:00 PM", activity: "Party & Fun", icon: "party-popper" },
+  locations: [
+    {
+      label: "Church",
+      name: "Archdiocesan Shrine of Jesus – the Way, the Truth, and the Life",
+      address: "Coral Way, Mall of Asia Complex, Pasay City",
+    },
+    {
+      label: "Reception",
+      name: "Jollibee Phoenix Station",
+      address: "Pasay City (beside Hotel 101)",
+    },
   ],
   gallery: [
   "/images/zozo1.jpg",
@@ -31,7 +42,7 @@ export const invitationData = {
   "/images/zozo5.jpg",
   "/images/zozo6.jpg",
 ],
-  message: "Every year is another magical adventure. Come celebrate this special day filled with laughter, love, and unforgettable memories!",
+  message: "However, if you wish to share a little something for our little one, monetary gifts or baby essentials would be greatly appreciated.",
   rsvpEmail: "rsvp@example.com", // placeholder
 };
 

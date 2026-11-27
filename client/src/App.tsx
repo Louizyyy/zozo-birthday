@@ -1,20 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import IntroEnvelope from './components/IntroEnvelope';
+import GodparentsIntro from './components/GodparentsIntro';
 import Hero from './components/Hero';
 import BirthdayDetails from './components/BirthdayDetails';
-import Program from './components/Program';
 import RSVP from './components/RSVP';
 import Gallery from './components/Gallery';
 import BirthdayMessage from './components/BirthdayMessage';
 import Footer from './components/Footer';
 
 function App() {
+  const isGodparents = new URLSearchParams(window.location.search).get('invite') === 'godparents';
   const [showInvitation, setShowInvitation] = useState(false);
   const [isDesktopFrame, setIsDesktopFrame] = useState(() =>
     typeof window !== 'undefined' &&
     window.self === window.top &&
     window.innerWidth >= 768
   );
+
+  const musicRef = useRef<HTMLAudioElement>(null);
+
+  const startMusic = () => {
+    const audio = musicRef.current;
+    if (!audio) return;
+
+    audio.volume = 0.3;
+    void audio.play().catch((error) => {
+      console.warn('Could not play background music:', error);
+    });
+  };
 
   useEffect(() => {
     const updateView = () => {
@@ -50,7 +63,7 @@ function App() {
         }}
       >
         <iframe
-          title="Lorenzo's Baptismal Invitation"
+          title="Lorenzo's Birthday Invitation"
           src={window.location.href}
           style={{
             width: '430px',
@@ -67,8 +80,24 @@ function App() {
 
   return (
     <>
+      <audio
+        ref={musicRef}
+        src={`${import.meta.env.BASE_URL}audio/birthday-music.mp3`}
+        preload="auto"
+        loop
+      />
       {!showInvitation && (
-        <IntroEnvelope onOpenComplete={() => setShowInvitation(true)} />
+        isGodparents ? (
+          <GodparentsIntro
+            onOpenStart={startMusic}
+            onOpenComplete={() => setShowInvitation(true)}
+          />
+        ) : (
+          <IntroEnvelope
+            onOpenStart={startMusic}
+            onOpenComplete={() => setShowInvitation(true)}
+          />
+        )
       )}
 
       {showInvitation && (
@@ -76,11 +105,9 @@ function App() {
           {/* <Navbar /> */}
           <main>
             <Hero />
-           <BirthdayDetails />
+            <BirthdayDetails />
             <Gallery />
             {/* <Celebrant /> */}
-            <Program />
-            {/* <Venue /> */}
             <RSVP />
             <BirthdayMessage />
           </main>

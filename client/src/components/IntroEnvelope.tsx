@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface IntroEnvelopeProps {
+  onOpenStart: () => void;
   onOpenComplete: () => void;
 }
 
 export default function IntroEnvelope({
+  onOpenStart,
   onOpenComplete,
 }: IntroEnvelopeProps) {
   const [isOpening, setIsOpening] = useState(false);
@@ -16,6 +18,7 @@ export default function IntroEnvelope({
   const handleOpen = () => {
     if (isOpening) return;
 
+    onOpenStart();
     setIsOpening(true);
 
     // Sequence of animations
@@ -34,7 +37,7 @@ export default function IntroEnvelope({
     '#FFE066',
   ];
 
-  const confettiPieces = Array.from({ length: 40 }, (_, i) => ({
+  const confettiPieces = Array.from({ length: 240 }, (_, i) => ({
     id: i,
     color: confettiColors[i % confettiColors.length],
     left: `${Math.random() * 100}%`,
@@ -48,11 +51,45 @@ export default function IntroEnvelope({
     <AnimatePresence>
       {!fadeOut && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] via-[#2a1a1a] to-[#1A1A1A] overflow-hidden"
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[#2a1a1a] bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/images/bg-intro.png')" }}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
         >
+          {/* Falling confetti behind the envelope */}
+{!isOpening && (
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 overflow-hidden motion-reduce:hidden"
+  >
+    {Array.from({ length: 50 }, (_, i) => (
+      <motion.span
+        key={i}
+        className="absolute -top-4 rounded-sm"
+        style={{
+          left: `${4 + ((i * 19) % 92)}%`,
+          width: i % 2 === 0 ? 6 : 4,
+          height: i % 2 === 0 ? 9 : 6,
+          backgroundColor: ['#f5c518', '#ed3838', '#fff0cd'][i % 3],
+          opacity: 0.65,
+        }}
+        initial={{ y: 0, rotate: 0 }}
+        animate={{
+          y: '110vh',
+          x: [0, i % 2 === 0 ? 18 : -18, 0],
+          rotate: i % 2 === 0 ? 360 : -360,
+        }}
+        transition={{
+          duration: 7 + (i % 5),
+          delay: -(i * 1.3) % 7,
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+      />
+    ))}
+  </div>
+)}
           {/* Background decorative elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* Subtle stars */}
@@ -108,49 +145,6 @@ export default function IntroEnvelope({
             >
               <MickeyEars size={60} />
             </motion.div>
-
-            {/* Racing Flags - Bottom Left */}
-            <motion.img
-              src="/images/1flag.png"
-              alt="Racing flags"
-              className="
-                absolute
-                left-[-20px]
-                bottom-[4%]
-                w-52
-                sm:w-64
-                md:w-80
-                lg:w-96
-                h-auto
-                opacity-50
-                drop-shadow-[0_6px_10px_rgba(0,0,0,0.2)]
-              "
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 0.35, x: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-            />
-
-            {/* Racing Flags - Bottom Right */}
-            <motion.img
-              src="/images/1flag.png"
-              alt="Racing flags"
-              className="
-                absolute
-                right-[-20px]
-                bottom-[4%]
-                w-52
-                sm:w-64
-                md:w-80
-                lg:w-96
-                h-auto
-                -scale-x-100
-                opacity-50
-                drop-shadow-[0_6px_10px_rgba(0,0,0,0.2)]
-              "
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 0.35, x: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-            />
           </div>
 
           {/* Confetti */}
@@ -212,83 +206,41 @@ export default function IntroEnvelope({
                 </div>
 
                 {/* Invitation card sliding out */}
-                <AnimatePresence>
-                  {showCard && (
-                    <motion.div
-                      className="absolute left-1/2 -translate-x-1/2 w-[85%] aspect-[3/4] bg-white rounded-md card-shadow z-[25] overflow-hidden border border-mickey-gold/30"
-                      initial={{
-                        y: 80,
-                        opacity: 0,
-                        scale: 0.9,
-                      }}
-                      animate={{
-                        y: -150,
-                        opacity: 1,
-                        scale: 1,
-                      }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 100,
-                        damping: 18,
-                        delay: 0.1,
-                      }}
-                    >
-                      <div className="relative h-full flex flex-col items-center justify-center p-4 bg-gradient-to-b from-white via-cream to-soft-pink/30">
+                    <AnimatePresence>
+                      {showCard && (
+                        <motion.div
+                         className="absolute left-1/2 -translate-x-1/2 z-[25] aspect-[3/4] w-[85%] overflow-hidden rounded-xl border-2 border-[#d9a441] bg-linear-to-b from-[#fff9e9] to-[#f4ddad] card-shadow"                          initial={{ y: 80, opacity: 0, scale: 0.9 }}
+                          animate={{ y: -150, opacity: 1, scale: 1 }}
+                          transition={{
+                            type: 'spring',
+                            stiffness: 100,
+                            damping: 18,
+                            delay: 0.1,
+                          }}
+                        >
+                         <div
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-2 rounded-lg border border-dashed border-[#bd852b]"
+                          />
 
-              {/* Mickey Watermark - Behind the Text */}
-              <motion.img
-                src="/images/mickeyballoon.png"
-                alt="Mickey Mouse"
-                initial={{
-                  opacity: 0,
-                  scale: 0.8,
-                }}
-                animate={{
-                  opacity: 0.16,
-                  scale: 1,
-                }}
-                transition={{
-                  duration: 0.8,
-                  ease: 'easeOut',
-                }}
-                className="
-                  absolute
-                  left-1/2
-                  top-1/2
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  w-56
-                  sm:w-64
-                  md:w-72
-                  h-auto
-                  pointer-events-none
-                  z-0
-                "
-              />
+                          <div
+                            aria-hidden="true"
+                            className="absolute inset-x-5 top-4 h-1 rounded-full bg-[#b7191c]"
+                          />
 
-  {/* Text Content - Above Mickey */}
-  <div className="relative z-10 flex flex-col items-center text-center">
+                          <img
+                            src="/images/zozo-inv.png"
+                            alt="You’re invited to Zozo’s 1st birthday!"
+                            className="relative block h-full w-full scale-105 object-contain p-3"
+                          />
 
-
-    <p className="font-display text-mickey-red text-lg sm:text-xl font-semibold tracking-wide">
-      You're Invited!
-    </p>
-
-    <div className="w-16 h-0.5 bg-mickey-gold my-2" />
-
-    <p className="font-display text-mickey-black text-base sm:text-lg">
-      Zozo's
-    </p>
-
-    <p className="text-sm text-mickey-black/70 mt-1">
-      Baptismal Ceremony
-    </p>
-
-  </div>
-</div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                          <div
+                            aria-hidden="true"
+                            className="absolute inset-x-5 bottom-4 h-1 rounded-full bg-[#b7191c]"
+                          />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
                 {/* Envelope flap */}
                 <motion.div

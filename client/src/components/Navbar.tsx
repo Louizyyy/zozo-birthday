@@ -6,7 +6,6 @@ const navItems = [
   { label: 'Home', href: '#hero' },
   { label: 'Details', href: '#details' },
   { label: 'Celebrant', href: '#celebrant' },
-  { label: 'Program', href: '#program' },
   { label: 'Venue', href: '#venue' },
   { label: 'RSVP', href: '#rsvp' },
 ];
@@ -53,7 +52,7 @@ export default function Navbar() {
             </svg>
           </div>
           <span className={`font-display font-semibold text-sm sm:text-base ${scrolled ? 'text-mickey-black' : 'text-white'}`}>
-            Lorenzo's Baptismal
+            Lorenzo's Birthday
           </span>
         </a>
 

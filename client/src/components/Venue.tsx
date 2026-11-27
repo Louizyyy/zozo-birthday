@@ -1,61 +1,45 @@
-import { motion } from 'framer-motion';
-import { MapPin, Navigation } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { invitationData } from '../data/invitation';
 
 export default function Venue() {
-  const { event } = invitationData;
-
   return (
-    <section id="venue" className="py-20 sm:py-28 bg-gradient-to-b from-cream to-soft-pink/30 relative overflow-hidden">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <p className="text-mickey-red font-semibold tracking-widest uppercase text-sm mb-2">Where to Find Us</p>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-mickey-black">
-            Let's Celebrate!
-          </h2>
-          <div className="w-16 h-1 bg-mickey-gold mx-auto mt-4 rounded-full" />
-        </motion.div>
+    <div id="venue">
+      {invitationData.locations.map(({ label, name, address }) => {
+        const query = encodeURIComponent(`${name}, ${address}`);
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100"
-        >
-          {/* Map placeholder - elegant card */}
-          <div className="relative h-48 sm:h-64 bg-gradient-to-br from-mickey-black via-[#2a1a1a] to-mickey-red-dark flex items-center justify-center">
-            <div className="absolute inset-0 opacity-20" style={{
-              backgroundImage: `radial-gradient(circle at 30% 40%, #F5C518 0%, transparent 40%), radial-gradient(circle at 70% 60%, #E31C23 0%, transparent 35%)`,
-            }} />
-            <div className="relative text-center">
-              <MapPin className="w-12 h-12 text-mickey-gold mx-auto mb-3" />
-              <p className="text-white font-display text-xl sm:text-2xl font-semibold">{event.venue}</p>
+        return (
+          <section key={label} className="border-b border-[#d7a346]/45 py-6 last:border-b-0 last:pb-0">
+            <div className="flex items-center gap-4 sm:gap-6">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-[#d7a346] bg-[#c80e1b] text-white shadow-md sm:h-16 sm:w-16">
+                <MapPin aria-hidden="true" className="h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd111b]">{label}</h3>
+                <p className="mt-1 font-display text-xl font-bold leading-tight text-[#201d1d]">{name}</p>
+                <p className="mt-1 text-sm text-[#201d1d]">{address}</p>
+              </div>
             </div>
-          </div>
 
-          <div className="p-6 sm:p-8 text-center">
-            <p className="text-mickey-black/70 text-sm sm:text-base mb-6 max-w-md mx-auto leading-relaxed">
-              {event.address}
-            </p>
-
+            <div className="mt-4 overflow-hidden rounded-2xl border border-[#d7a346]/70 bg-[#f7f0e4]">
+              <iframe
+                src={`https://www.google.com/maps?q=${query}&output=embed`}
+                title={`${label} map`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="block h-48 w-full border-0 sm:h-60"
+              />
+            </div>
             <a
-              href={event.mapUrl}
+              href={`https://www.google.com/maps/search/?api=1&query=${query}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-mickey-red text-white font-semibold text-sm sm:text-base shadow-lg shadow-mickey-red/30 hover:bg-mickey-red-dark hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+              className="mt-3 inline-block text-sm font-semibold text-[#bd111b] underline underline-offset-4"
             >
-              <Navigation className="w-5 h-5" />
-              Get Directions
+              Open {label.toLowerCase()} in Google Maps
             </a>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+          </section>
+        );
+      })}
+    </div>
   );
 }
