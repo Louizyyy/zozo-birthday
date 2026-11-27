@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 
@@ -11,12 +11,37 @@ export default function RSVP() {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const requestInFlight = useRef(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!form.name || !form.attending) return;
-    // In production, send to backend / email service
-    console.log('RSVP submitted:', form);
-    setSubmitted(true);
+    if (requestInFlight.current || !form.name.trim() || !form.attending) return;
+
+    requestInFlight.current = true;
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const invitationLink = new URLSearchParams(window.location.search).get('invite') === 'godparents'
+        ? 'Godparents'
+        : 'Regular';
+      const response = await fetch(`${import.meta.env.BASE_URL}api/rsvp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, invitationLink }),
+      });
+      if (!response.ok) throw new Error('RSVP request failed');
+      const result = await response.json();
+      if (result.saved !== true) throw new Error('RSVP save was not confirmed');
+
+      setSubmitted(true);
+    } catch {
+      setSubmitError('We couldn’t save your RSVP. Please try again.');
+    } finally {
+      requestInFlight.current = false;
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -89,90 +114,95 @@ export default function RSVP() {
           onSubmit={handleSubmit}
           className="bg-cream/60 rounded-3xl p-6 sm:p-8 shadow-lg border border-mickey-gold/15 space-y-5"
         >
-          {/* Name */}
-          <div>
-            <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">Guest Name *</label>
-            <input
-              type="text"
-              required
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-mickey-red/40 focus:border-mickey-red transition text-mickey-black"
-              placeholder="Your full name"
-            />
-          </div>
-
-          {/* Contact */}
-          <div>
-            <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">Contact Number</label>
-            <input
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel-national"
-                pattern="[0-9]{11}"
-                value={form.contact}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    contact: e.target.value.replace(/[^0-9]/g, '').slice(0, 11),
-                  })
-                }
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-mickey-black focus:border-mickey-red focus:outline-none focus:ring-2 focus:ring-mickey-red/40"
-                placeholder="09XXXXXXXXX (optional)"
-                title="Enter exactly 11 digits, e.g. 09123456789"
+          <fieldset disabled={submitting} className="min-w-0 space-y-5">
+            {/* Name */}
+            <div>
+              <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">Guest Name *</label>
+              <input
+                type="text"
+                required
+                maxLength={120}
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-mickey-red/40 focus:border-mickey-red transition text-mickey-black"
+                placeholder="Your full name"
               />
-          </div>
-
-          {/* Attendance */}
-          <div>
-            <label className="block text-sm font-medium text-mickey-black/80 mb-2">Will you attend? *</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setForm({ ...form, attending: 'yes' })}
-                className={`flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all ${
-                  form.attending === 'yes'
-                    ? 'bg-mickey-red text-white shadow-md'
-                    : 'bg-white border border-gray-200 text-mickey-black hover:border-mickey-red/40'
-                }`}
-              >
-                <Check className="w-4 h-4" />
-                YES, I'LL BE THERE
-              </button>
-              <button
-                type="button"
-                onClick={() => setForm({ ...form, attending: 'no' })}
-                className={`flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all ${
-                  form.attending === 'no'
-                    ? 'bg-mickey-black text-white shadow-md'
-                    : 'bg-white border border-gray-200 text-mickey-black hover:border-mickey-black/40'
-                }`}
-              >
-                <X className="w-4 h-4" />
-                SORRY, CAN'T MAKE IT
-              </button>
             </div>
-          </div>
 
-          {/* Message */}
-          <div>
-            <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">Message (optional)</label>
-            <textarea
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-              rows={3}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-mickey-red/40 focus:border-mickey-red transition text-mickey-black resize-none"
-              placeholder="Any special notes or wishes..."
-            />
-          </div>
+            {/* Contact */}
+            <div>
+              <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">Contact Number</label>
+              <input
+                  type="tel"
+                  inputMode="numeric"
+                  autoComplete="tel-national"
+                  pattern="[0-9]{11}"
+                  value={form.contact}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      contact: e.target.value.replace(/[^0-9]/g, '').slice(0, 11),
+                    })
+                  }
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-mickey-black focus:border-mickey-red focus:outline-none focus:ring-2 focus:ring-mickey-red/40"
+                  placeholder="09XXXXXXXXX (optional)"
+                  title="Enter exactly 11 digits, e.g. 09123456789"
+                />
+            </div>
 
-          <button
-            type="submit"
-            disabled={!form.name || !form.attending}
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-mickey-red to-mickey-red-dark text-white font-bold text-base shadow-lg shadow-mickey-red/25 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-0.5"
-          >
-            Submit RSVP
-          </button>
+            {/* Attendance */}
+            <div>
+              <label className="block text-sm font-medium text-mickey-black/80 mb-2">Will you attend? *</label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, attending: 'yes' })}
+                  className={`flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all ${
+                    form.attending === 'yes'
+                      ? 'bg-mickey-red text-white shadow-md'
+                      : 'bg-white border border-gray-200 text-mickey-black hover:border-mickey-red/40'
+                  }`}
+                >
+                  <Check className="w-4 h-4" />
+                  YES, I'LL BE THERE
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, attending: 'no' })}
+                  className={`flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all ${
+                    form.attending === 'no'
+                      ? 'bg-mickey-black text-white shadow-md'
+                      : 'bg-white border border-gray-200 text-mickey-black hover:border-mickey-black/40'
+                  }`}
+                >
+                  <X className="w-4 h-4" />
+                  SORRY, CAN'T MAKE IT
+                </button>
+              </div>
+            </div>
+
+            {/* Message */}
+            <div>
+              <label className="block text-sm font-medium text-mickey-black/80 mb-1.5">Message (optional)</label>
+              <textarea
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                maxLength={1000}
+                rows={3}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-mickey-red/40 focus:border-mickey-red transition text-mickey-black resize-none"
+                placeholder="Any special notes or wishes..."
+              />
+            </div>
+
+            {submitError && <p role="alert" className="text-sm text-mickey-red-dark">{submitError}</p>}
+            <button
+              type="submit"
+              disabled={submitting || !form.name.trim() || !form.attending}
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-mickey-red to-mickey-red-dark text-white font-bold text-base shadow-lg shadow-mickey-red/25 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-0.5"
+            >
+              {submitting ? 'Saving…' : 'Submit RSVP'}
+            </button>
+          </fieldset>
         </motion.form>
       </div>
     </section>
