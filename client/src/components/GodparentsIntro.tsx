@@ -10,14 +10,17 @@ interface GodparentsIntroProps {
 
 // Each timestamp is the start of the corresponding word, in seconds.
 const narration = [
-  { text: 'Will you be my Godparents?', times: [0, 0, 0, 0, 0] },
-  { text: 'Because I know you’ll love me.', times: [1.9, 2.2, 2.35, 2.6, 2.9, 3.2] },
-  { text: 'Because I know you’ll care.', times: [3.8, 4.1, 4.25, 4.5, 5.3] },
-  { text: 'Because I know you’ll always be there.', times: [6.5, 6.8, 6.95, 7.2, 7.5, 7.9, 8.15] },
-  { text: 'Thank you for being part of my life.', times: [9.30, 9.75, 9.95, 10.15, 10.45, 10.7, 10.85, 11.05] },
-  { text: 'Lots of love,', times: [12, 12.25, 12.45] },
-  { text: 'Lorenzo David', times: [13.1, 13.55] },
-  { text: 'Or you can call me ZOZO.', times: [14.2, 14.65, 14.85, 15.05, 15.2, 15.35] },
+  { text: 'Dear Tito,', times: [0, 0] },
+  {
+    text: 'Life is one exciting race, and every race needs a pit crew!',
+    times: [0.85, 1.12, 1.27, 1.5, 2.03, 2.63, 2.8, 3.1, 3.4, 3.65, 3.8, 4.12],
+  },
+  {
+    text: 'I’m gearing up for the biggest adventure yet and I can’t cross the finish line without you!',
+    times: [4.8, 5.05, 5.35, 5.5, 5.63, 5.8, 6.2, 6.75, 7.2, 7.35, 7.5, 7.85, 8.15, 8.3, 8.65, 8.9, 9.3],
+  },
+  { text: 'Will you be my Ninong?', times: [10.1, 10.35, 10.55, 10.75, 11] },
+  { text: 'Lorenzo,', times: [12.1] },
 ];
 
 const confettiColors = ['#ec2530', '#ffca47', '#fff4df', '#ff8e45', '#fff'];
@@ -81,6 +84,9 @@ export default function GodparentsIntro({ onOpenStart, onOpenComplete }: Godpare
                 </Tag>
               );
             })}
+            <p className="godparents-line godparents-line-7">
+              Christening and Birthday Celebration
+            </p>
           </div>
         </div>
         <img
@@ -144,7 +150,7 @@ export default function GodparentsIntro({ onOpenStart, onOpenComplete }: Godpare
       <audio
         ref={audioRef}
         preload="none"
-        src={`${import.meta.env.BASE_URL}audio/zozomp.mp3`}
+        src={`${import.meta.env.BASE_URL}audio/godparents-ninong.mp3`}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onTimeUpdate={(event) => setPosition(event.currentTarget.currentTime)}

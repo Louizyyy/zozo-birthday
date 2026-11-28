@@ -1,10 +1,10 @@
 import { MapPin } from 'lucide-react';
-import { invitationData } from '../data/invitation';
+import { formatEventTime, type InvitationLocation } from '../data/invitation';
 
-export default function Venue() {
+export default function Venue({ locations }: { locations: InvitationLocation[] }) {
   return (
     <div id="venue">
-      {invitationData.locations.map(({ label, name, address }) => {
+      {locations.map(({ label, startsAt, name, address }) => {
         const query = encodeURIComponent(`${name}, ${address}`);
 
         return (
@@ -15,6 +15,7 @@ export default function Venue() {
               </div>
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd111b]">{label}</h3>
+                <time dateTime={startsAt} className="mt-1 block font-bold text-[#201d1d]">{formatEventTime(startsAt)}</time>
                 <p className="mt-1 font-display text-xl font-bold leading-tight text-[#201d1d]">{name}</p>
                 <p className="mt-1 text-sm text-[#201d1d]">{address}</p>
               </div>

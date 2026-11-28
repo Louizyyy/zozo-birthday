@@ -1,12 +1,10 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { invitationData } from '../data/invitation';
+import { getInvitationSchedule, invitationData } from '../data/invitation';
 import Venue from './Venue';
 
-const EVENT_DATE = new Date(invitationData.event.startsAt);
-
-function getTimeLeft() {
-  const difference = Math.max(0, EVENT_DATE.getTime() - Date.now());
+function getTimeLeft(startTime: number) {
+  const difference = Math.max(0, startTime - Date.now());
 
   return {
     days: Math.floor(difference / 86_400_000),
@@ -16,17 +14,19 @@ function getTimeLeft() {
   };
 }
 
-export default function BirthdayDetails() {
+export default function BirthdayDetails({ isGodparents }: { isGodparents: boolean }) {
   const { event } = invitationData;
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft);
+  const schedule = getInvitationSchedule(isGodparents);
+  const startTime = Date.parse(schedule[0].startsAt);
+  const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(startTime));
 
   useEffect(() => {
     const interval = window.setInterval(() => {
-      setTimeLeft(getTimeLeft());
+      setTimeLeft(getTimeLeft(startTime));
     }, 1000);
 
     return () => window.clearInterval(interval);
-  }, []);
+  }, [startTime]);
 
   const countdown = [
     { label: 'Days', value: timeLeft.days },
@@ -198,35 +198,7 @@ export default function BirthdayDetails() {
 
             <div className="border-t border-[#d7a346]/45" />
 
-            {/* Time */}
-            <div className="flex items-center gap-4 py-6 sm:gap-6">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-[#d7a346] bg-[#c80e1b] text-white shadow-md sm:h-16 sm:w-16">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  className="h-7 w-7"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 7v5l3 2" />
-                </svg>
-              </div>
-
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd111b]">
-                  Time
-                </p>
-                <p className="mt-1 font-display text-2xl font-bold text-[#201d1d]">
-                  {event.time}
-                </p>
-              </div>
-            </div>
-
-            <div className="border-t border-[#d7a346]/45" />
-
-            <Venue />
+            <Venue locations={schedule} />
   {/* Mickey Overlay */}
 <motion.img
   src="/images/mickeypoint.png"

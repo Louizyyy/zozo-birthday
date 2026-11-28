@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { invitationData } from '../data/invitation';
 
-export default function Hero() {
+export default function Hero({ isGodparents }: { isGodparents: boolean }) {
   const [carReady, setCarReady] = useState(false);
   const { celebrant } = invitationData;
 
@@ -113,8 +113,10 @@ export default function Hero() {
           className="relative -top-26 z-20 mx-auto mb-8 w-[94%] max-w-[440px]"
         >
           <img
-            src="/images/zozo-title.png"
-            alt="You are invited to Zozo’s Birthday Celebration"
+            src={`${import.meta.env.BASE_URL}images/${isGodparents ? 'zozo-christening-title.png' : 'zozo-title.png'}`}
+            alt={isGodparents
+              ? 'You are invited to Zozo’s Christening and Birthday Celebration'
+              : 'You are invited to Zozo’s Birthday Celebration'}
             className="block h-auto w-full"
           />
         </motion.h1>

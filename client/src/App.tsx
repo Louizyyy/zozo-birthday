@@ -104,8 +104,8 @@ function App() {
         <div className="min-h-screen">
           {/* <Navbar /> */}
           <main>
-            <Hero />
-            <BirthdayDetails />
+            <Hero isGodparents={isGodparents} />
+            <BirthdayDetails isGodparents={isGodparents} />
             <Gallery />
             {/* <Celebrant /> */}
             <RSVP />

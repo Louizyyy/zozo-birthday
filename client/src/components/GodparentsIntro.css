@@ -64,15 +64,12 @@
   font: 800 clamp(1.65rem, 7vw, 2.65rem)/1.04 Georgia, serif;
 }
 
-.godparents-line-4 {
+.godparents-line-3 {
   margin-top: .8rem;
 }
 
-.godparents-line-5 {
+.godparents-line-4 {
   margin-top: .6rem;
-}
-
-.godparents-line-6 {
   color: #760e19;
   font: italic 700 clamp(1.35rem, 5vw, 1.95rem)/1.2 Georgia, serif;
 }
